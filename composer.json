@@ -1,0 +1,42 @@
+{
+  "name": "cyndaron/util",
+  "description": "General utility classes for Cyndaron",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Cyndaron\\Util\\": "src/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/Cyndaron/module"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/Cyndaron/dbal"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": "^7.4",
+    "thecodingmachine/safe": "^1.1",
+    "cyndaron/dbal": "^1.0"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master",
+    "phan/phan": "^3.0",
+    "thecodingmachine/phpstan-safe-rule": "^1.0",
+    "phpstan/phpstan": "^0.12.42",
+    "friendsofphp/php-cs-fixer": "^2.16"
+  },
+  "scripts": {
+    "phpstan": [
+      "vendor/bin/phpstan analyse src --level 8"
+    ],
+    "cscheck": [
+      "vendor/bin/php-cs-fixer fix src/ --allow-risky=yes --dry-run --diff"
+    ]
+  }
+}
