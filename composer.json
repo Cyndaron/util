@@ -22,7 +22,8 @@
   "require": {
     "php": "^7.4",
     "thecodingmachine/safe": "^1.1",
-    "cyndaron/dbal": "^1.0"
+    "cyndaron/dbal": "^1.0",
+    "symfony/mailer": "^5.2"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
