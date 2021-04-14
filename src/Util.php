@@ -31,7 +31,7 @@ use function str_replace;
 
 class Util
 {
-    public const UPLOAD_DIR = __DIR__ . '/../public_html/uploads';
+    public const UPLOAD_DIR = PUB_DIR . '/uploads';
 
     private const PASSWORD_CHARACTERS = ['a', 'c', 'd', 'e', 'f', 'h', 'j', 'm', 'n', 'q', 'r', 't',
         'A', 'C', 'D', 'E', 'F', 'H', 'J', 'L', 'M', 'N', 'Q', 'R', 'T',
