@@ -97,7 +97,7 @@ class Util
         return true;
     }
 
-    public static function getStartOfNextQuarter(): \DateTimeImmutable
+    public static function getStartOfNextQuarter(): DateTimeImmutable
     {
         $year = (int)date('Y');
         $nextYear = $year + 1;
@@ -121,7 +121,7 @@ class Util
 
         }
 
-        return DateTimeImmutable::createFromFormat('!Y-m-d', $date);
+        return DateTimeImmutable::createFromFormat('Y-m-d', $date);
     }
 
     public static function filenameToUrl(string $filename): string
