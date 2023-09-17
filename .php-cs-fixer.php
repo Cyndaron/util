@@ -12,18 +12,20 @@ $finder = PhpCsFixer\Finder::create()
     ->ignoreVCS(true)
 ;
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR2' => true,
         'align_multiline_comment' => ['comment_type' => 'phpdocs_like'],
         'array_syntax' => ['syntax' => 'short'],
-        'braces' => [
-            'allow_single_line_closure' => true,
-            'position_after_control_structures' => 'next',
-            'position_after_functions_and_oop_constructs' => 'next',
-            'position_after_anonymous_constructs' => 'next',
-        ],
         'constant_case' => ['case' => 'lower'],
+        'control_structure_continuation_position' => [
+            'position' => 'next_line',
+        ],
+        'curly_braces_position' => [
+            'anonymous_classes_opening_brace' => 'next_line_unless_newline_at_signature_end',
+            'anonymous_functions_opening_brace' => 'next_line_unless_newline_at_signature_end',
+            'control_structures_opening_brace' => 'next_line_unless_newline_at_signature_end',
+        ],
         'function_declaration' => ['closure_function_spacing' => 'none'],
         'linebreak_after_opening_tag' => true,
         'phpdoc_order' => true,

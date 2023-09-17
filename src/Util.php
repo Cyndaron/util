@@ -9,10 +9,11 @@ namespace Cyndaron\Util;
 use RuntimeException;
 use Safe\DateTimeImmutable;
 use Safe\Exceptions\FilesystemException;
+use function Safe\preg_replace;
 use function Safe\date;
 use function Safe\mkdir;
-use function Safe\sprintf;
-use function Safe\substr;
+use function sprintf;
+use function substr;
 use function Safe\unlink;
 use function random_int;
 use function count;
@@ -37,6 +38,9 @@ class Util
         'A', 'C', 'D', 'E', 'F', 'H', 'J', 'L', 'M', 'N', 'Q', 'R', 'T',
         '3', '4', '7', '8'];
 
+    public const SQL_DATE_FORMAT = 'Y-m-d';
+    public const SQL_DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+
     public static function generatePassword(int $length = 10): string
     {
         $gencode = '';
@@ -51,6 +55,7 @@ class Util
 
     public static function generateToken(int $length): string
     {
+        // @phpstan-ignore-next-line Bogus error.
         return bin2hex(random_bytes($length));
     }
 
@@ -101,7 +106,7 @@ class Util
     {
         $year = (int)date('Y');
         $nextYear = $year + 1;
-        $currentQuarter = floor(((int)date('m') - 1) / 3) + 1;
+        $currentQuarter = (int)floor(((int)date('m') - 1) / 3) + 1;
 
         switch ($currentQuarter)
         {
@@ -118,10 +123,11 @@ class Util
             default:
                 $date = "$nextYear-01-01";
                 break;
-
         }
 
-        return DateTimeImmutable::createFromFormat('Y-m-d', $date);
+        /** @var DateTimeImmutable $retVal */
+        $retVal = DateTimeImmutable::createFromFormat('Y-m-d', $date);
+        return $retVal;
     }
 
     public static function filenameToUrl(string $filename): string
@@ -165,5 +171,13 @@ class Util
             'content-disposition' => 'attachment;filename="' . $filename . '"',
             'cache-control' => 'max-age=0'
         ];
+    }
+
+    public static function getSlug(string $url): string
+    {
+        $firstPass = preg_replace('/[^0-9a-z\-]+/', '-', strtolower($url));
+        /** @var string $dedoubled */
+        $dedoubled = str_replace('--', '-', $firstPass);
+        return $dedoubled;
     }
 }
