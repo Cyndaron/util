@@ -1,4 +1,4 @@
-name: PHP
+name: PHP 8.1
 on:
   push:
     branches: [ master ]
@@ -11,14 +11,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: pdo
 
       - name: Validate composer.json and composer.lock
         run: composer validate
 
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
@@ -35,4 +41,4 @@ jobs:
         run: composer run-script phpstan
 
       - name: Run PHP Coding Standards Fixer
-        run: composer run-script cscheck
+        run: composer run-script cs-check
