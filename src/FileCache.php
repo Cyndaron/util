@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Cyndaron\Util;
 
+use DateTime;
+use DateTimeImmutable;
 use function file_exists;
 use function file_get_contents;
 use function file_put_contents;
@@ -14,10 +16,20 @@ final class FileCache
     public const CACHE_DIR = ROOT_DIR . '/cache/cyndaron';
 
     public readonly string $filename;
+    /** @var class-string[] */
     public readonly array $allowedClasses;
 
+    /**
+     * @param string $cacheKey
+     * @param class-string[] $allowedClasses
+     */
     public function __construct(string $cacheKey, array $allowedClasses)
     {
+        $allowedClasses[] = DateTime::class;
+        $allowedClasses[] = DateTimeImmutable::class;
+        $allowedClasses[] = \Safe\DateTime::class;
+        $allowedClasses[] = \Safe\DateTimeImmutable::class;
+
         $this->filename = self::CACHE_DIR . "/$cacheKey.phps";
         $this->allowedClasses = $allowedClasses;
     }
@@ -29,7 +41,7 @@ final class FileCache
             $serialized = file_get_contents($this->filename);
             if ($serialized)
             {
-                $unserialized = unserialize($serialized, $this->allowedClasses);
+                $unserialized = unserialize($serialized, ['allowed_classes' => $this->allowedClasses]);
                 if ($unserialized)
                 {
                     $target = $unserialized;
